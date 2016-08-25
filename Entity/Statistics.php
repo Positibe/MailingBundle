@@ -3,14 +3,15 @@
 namespace Positibe\Bundle\MailingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * Statistics
  *
  * @ORM\Table(name="positibe_mailing_statistics")
- * @ORM\Entity(repositoryClass="Positibe\Bundle\MailingBundle\Repository\StatisticsRepository")
+ * @ORM\Entity()
  */
-class Statistics implements SwiftMailerMessageInterface
+class Statistics implements SwiftMailerMessageInterface, ResourceInterface
 {
     const STATE_SENT = 'sent';
     const STATE_RECEIVED = 'received';

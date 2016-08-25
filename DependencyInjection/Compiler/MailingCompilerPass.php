@@ -33,6 +33,12 @@ class MailingCompilerPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('positibe.mailing.provider') as $id => $attributes) {
             $delivery->addMethodCall('addProvider', array(new Reference($id)));
         }
+
+        //Overriding defaults factories
+        $container->setDefinition(
+            'positibe.factory.statistics',
+            $container->getDefinition('positibe_mailing.statistics_factory')
+        );
     }
 
 } 

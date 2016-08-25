@@ -3,14 +3,15 @@
 namespace Positibe\Bundle\MailingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * Template
  *
  * @ORM\Table(name="positibe_mailing_template")
- * @ORM\Entity(repositoryClass="Positibe\Bundle\MailingBundle\Repository\TemplateRepository")
+ * @ORM\Entity()
  */
-class Template
+class Template implements ResourceInterface
 {
     /**
      * @var integer

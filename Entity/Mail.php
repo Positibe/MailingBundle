@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Positibe\Bundle\OrmMediaBundle\Entity\Media;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * Mail
@@ -13,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="positibe_mailing_mail")
  * @ORM\Entity(repositoryClass="Positibe\Bundle\MailingBundle\Repository\MailRepository")
  */
-class Mail implements SwiftMailerMessageInterface
+class Mail implements SwiftMailerMessageInterface, ResourceInterface
 {
     const STATE_DRAFT = 'draft';
     const STATE_IN_QUEUE = 'in_queue';

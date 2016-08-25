@@ -11,6 +11,7 @@
 namespace Positibe\Bundle\MailingBundle\Swiftmailer;
 
 use Doctrine\ORM\EntityManager;
+use Positibe\Bundle\MailingBundle\Entity\Statistics;
 use Swift_Events_SendEvent;
 use Swift_Events_TransportExceptionEvent;
 use Swift_Plugins_Logger;
@@ -114,6 +115,8 @@ class MailingLoggerPlugin implements \Swift_Plugins_Logger, \Swift_Events_SendLi
 
     public function update()
     {
+        //This is an example to log what email is really send or bounced.
+        //Only is shown how it should work
         $qb = $this->em->createQueryBuilder();
         $qb->update(
             'PositibeMailingBundle:Statistics',

@@ -2,8 +2,9 @@
 
 namespace Positibe\Bundle\MailingBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+
 use Positibe\Bundle\MailingBundle\Entity\Mail;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 /**
  * MailRepository
