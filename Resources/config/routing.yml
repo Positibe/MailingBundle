@@ -1,0 +1,3 @@
+positibe_mailing_template:
+    resource: "@PositibeMailingBundle/Resources/config/routing/template.yml"
+    prefix:   /template

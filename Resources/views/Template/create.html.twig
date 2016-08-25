@@ -1,0 +1,25 @@
+    {% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% block title %}Template{% endblock %}
+    {% block subtitle %}Crear nuevo Template{% endblock %}
+    {% set menu_active = 'template' %}
+    {% set content_menu = 'template' %}
+
+    {% block breadcrumb_list %}
+    <li>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ path('positibe_template_index') }}">Template</a>
+    </li>
+    <li>
+        <i class="fa fa-angle-right"></i>
+        Nuevo Template
+    </li>
+    {% endblock %}
+
+    {% block content -%}
+
+    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
+        {{ include('@PositibeMailing/Template/_form.html.twig') }}
+    {{ form_end(form) }}
+
+    {% endblock -%}

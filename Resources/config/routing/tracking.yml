@@ -1,0 +1,7 @@
+positibe_mailing_tracking_viewed:
+    path: /mailing_tacking/{token}/viewed
+    defaults: { _controller: PositibeMailingBundle:Tracking:viewed }
+
+positibe_mailing_tracking_clicked:
+    path: /mailing_tacking/{token}/redirect
+    defaults: { _controller: PositibeMailingBundle:Tracking:clicked }

@@ -1,0 +1,28 @@
+    {% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% from '@PositibeCmf/_macros.html.twig' import delete_confirm %}
+
+    {% block title %}Template{% endblock %}
+    {% block subtitle %}Editar Template{% endblock %}
+    {% set menu_active = 'template' %}
+    {% set content_menu = 'template' %}
+
+    {% block breadcrumb_list %}
+    <li>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ path('positibe_template_index') }}">Template</a>
+    </li>
+    <li>
+        <i class="fa fa-angle-right"></i>
+        {{template.code }}
+    </li>
+    {% endblock %}
+
+    {% block content -%}
+
+    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
+    <input type="hidden" name="_method" value="PUT"/>
+    {{ include('@PositibeMailing/Template/_form.html.twig') }}    {{ form_end(form) }}
+    {{ delete_confirm('positibe_template_remove', path('positibe_template_delete', { 'code': template.code }) ) }}
+
+    {% endblock -%}

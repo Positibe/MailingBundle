@@ -1,0 +1,61 @@
+positibe_template_create:
+    path: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: positibe.controller.template:createAction
+        _sylius:
+            redirect:
+                route: positibe_template_show
+                parameters: {code: resource.code}
+
+positibe_template_show:
+    path: /{code}
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.template:showAction
+        _sylius:
+            criteria:
+                code: $code
+
+positibe_template_preview:
+    path: /{code}/preview
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.template:showAction
+        _sylius:
+            template: PositibeMailingBundle:Template:preview.html.twig
+            criteria:
+                code: $code
+
+positibe_template_update:
+    path: /{code}/edit
+    methods: [GET, PUT]
+    defaults:
+        _controller: positibe.controller.template:updateAction
+        _sylius:
+            criteria:
+                code: $code
+            redirect:
+                route: positibe_template_show
+                parameters: {code: resource.code}
+
+positibe_template_delete:
+    path: /{code}
+    methods: [DELETE]
+    defaults:
+        _controller: positibe.controller.template:deleteAction
+        _sylius:
+            criteria:
+                code: $code
+                deleteable: true
+            redirect:
+                route: positibe_template_index
+                parameters: {}
+
+positibe_template_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.template:indexAction
+        _sylius:
+            sortable: true

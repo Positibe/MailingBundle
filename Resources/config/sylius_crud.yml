@@ -1,0 +1,11 @@
+sylius_resource:
+    resources:
+
+#Servicio autogenerado por Pcabreus Generator 
+        positibe.template:
+            driver: doctrine/orm
+            templates: PositibeMailingBundle:Template
+            classes:
+                model: Positibe\Bundle\MailingBundle\Entity\Template
+                controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository

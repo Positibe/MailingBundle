@@ -1,0 +1,45 @@
+{
+    "name": "positibe/mailing-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony PositibeMailingBundle",
+    "keywords": [
+        "mailing",
+        "email marketing",
+        "swift mailer",
+        "positibe",
+        "positibelabs"
+    ],
+    "homepage": "http://positibelabs.blogspot.com/bundles/mailing",
+    "license": "MIT",
+    "version": "0.1.0.0-dev",
+    "authors": [
+        {
+            "name": "Pedro Carlos Abreu Jiménez",
+            "email": "pcabreus@gmail.com",
+            "homepage": "https://github.com/pcabreus"
+        },
+        {
+            "name": "PositibeLabs",
+            "homepage": "https://github.com/positibelabs"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "~2.7",
+        "doctrine/orm": "~2.4",
+        "gedmo/doctrine-extensions": "~2.3",
+        "sylius/resource-bundle": "0.17.*",
+        "symfony/swiftmailer-bundle": "~2.3"
+    },
+    "suggestions": {
+        "positibe/cmf-bundle": "~0.4",
+        "sylius/mailer-bundle": "~0.17"
+    },
+    "autoload": {
+        "psr-4": {"Positibe\\Bundle\\MailingBundle\\": ""}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
