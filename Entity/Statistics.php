@@ -4,14 +4,16 @@ namespace Positibe\Bundle\MailingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Positibe\Bundle\MailingBundle\Entity\Interfaces\MessageInterface;
+use Positibe\Bundle\MailingBundle\Entity\Traits\MessageTrait;
 
 /**
  * Statistics
  *
  * @ORM\Table(name="positibe_mailing_statistics")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Positibe\Bundle\MailingBundle\Repository\StatisticsRepository")
  */
-class Statistics implements SwiftMailerMessageInterface, ResourceInterface
+class Statistics implements ResourceInterface, MessageInterface
 {
     const STATE_SENT = 'sent';
     const STATE_RECEIVED = 'received';
@@ -20,6 +22,8 @@ class Statistics implements SwiftMailerMessageInterface, ResourceInterface
     const STATE_CLICKED = 'clicked';
     const STATE_REPLIED = 'replied';
     const STATE_BOUNCED = 'bounced';
+
+    use MessageTrait;
 
     /**
      * @var integer
@@ -73,13 +77,6 @@ class Statistics implements SwiftMailerMessageInterface, ResourceInterface
     private $token;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="swift_mailer_message", type="string", length=255, nullable=TRUE)
-     */
-    private $swiftMailerMessage;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="clicksCount", type="integer")
@@ -121,6 +118,17 @@ class Statistics implements SwiftMailerMessageInterface, ResourceInterface
         $this->repliedCount = 0;
         $this->createdAt = new \DateTime();
     }
+
+    /**
+     * Get receivers
+     *
+     * @return array
+     */
+    public function getReceivers()
+    {
+        return $this->getName() ? [$this->getEmail() => $this->getName()] : [$this->getEmail()];
+    }
+
 
     public function received()
     {

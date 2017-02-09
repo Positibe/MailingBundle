@@ -3,15 +3,15 @@
     {% from '@PositibeCmf/_macros.html.twig' import pagination %}
     {% import '@PositibeCmf/_buttons.html.twig' as buttons %}
 
-    {% block title %}Template{% endblock %}
-    {% block subtitle %}Lista de Template{% endblock %}
+    {% block title %}Plantillas{% endblock %}
+    {% block subtitle %}Lista de plantillas{% endblock %}
     {% set menu_active = 'template' %}
     {% set content_menu = 'template' %}
 
     {% block breadcrumb_list %}
         <li>
             <i class="fa fa-angle-right"></i>
-            <a href="{{ path('positibe_template_index') }}">Template</a>
+            <a href="{{ path('positibe_template_index') }}">Plantillas</a>
         </li>
     {% endblock %}
 
@@ -20,14 +20,14 @@
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
-                    <p class="caption-subject font-green-sharp bold uppercase"><i class="fa "></i>Template
+                    <p class="caption-subject font-green-sharp bold uppercase"><i class="fa "></i>Plantillas
                     </p>
                 </div>
                 <div class="actions">
                     <a href="{{ path('positibe_template_create') }}"
                        class="btn btn-sm btn-default btn-circle"><i
                                 class="fa
-        fa-plus"></i> Crear nuevo Template</a>
+        fa-plus"></i> Crear nueva plantilla</a>
                 </div>
             </div>
             <div class="portlet-body">

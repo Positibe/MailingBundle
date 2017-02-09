@@ -13,7 +13,7 @@ namespace Positibe\Bundle\MailingBundle\Sender;
 use Doctrine\ORM\EntityManager;
 use Positibe\Bundle\MailingBundle\Entity\Mail;
 use Positibe\Bundle\MailingBundle\Entity\Statistics;
-use Positibe\Bundle\MailingBundle\Entity\SwiftMailerMessageInterface;
+use Positibe\Bundle\MailingBundle\Entity\Interfaces\SwiftMailerMessageInterface;
 use Positibe\Bundle\OrmMediaBundle\Entity\Media;
 
 
@@ -77,7 +77,9 @@ class StandardSender implements SenderInterface
                 $mail->getSubjectHtml(),
                 $mail->getResponseTo(),
                 $mail->getFromName(),
-                $mail->getBodyHtml()
+                $mail->getBodyHtml(),
+                $mail->getAttachments(),
+                $mail->getVariable('ccs', [])
             );
 
             if ($response === 0) {
@@ -88,9 +90,14 @@ class StandardSender implements SenderInterface
                 $mail->setSentAt(new \DateTime());
                 $mail->setSentCount($response);
             }
+        } catch (\Twig_Error $ex) {
+            $mail->setState(Mail::STATE_ERROR);
+            $mail->setMessageError($ex->getRawMessage());
+
+            return $mail;
         } catch (\Exception $ex) {
             $mail->setState(Mail::STATE_ERROR);
-            $mail->setMessageError('Error fatal: ' . $ex->getMessage());
+            $mail->setMessageError('Error fatal: '.$ex->getMessage());
 
             return $mail;
         }
@@ -106,7 +113,8 @@ class StandardSender implements SenderInterface
         $responseTo,
         $fromName,
         $body,
-        $attachments = []
+        $attachments = [],
+        $ccs = []
     ) {
         /** @var \Swift_Message $message */
         $message = \Swift_Message::newInstance()
@@ -127,10 +135,11 @@ class StandardSender implements SenderInterface
         } elseif ($mail instanceof Mail) {
             $message->setTo($mail->getReceivers());
         }
+        $message->setCc($ccs);
 
         /** @var Media $attachment */
         foreach ($attachments as $attachment) {
-            $file = $this->attachmentsPath . $attachment->getPath();
+            $file = $this->attachmentsPath.$attachment->getPath();
             $message->attach(\Swift_Attachment::fromPath($file)->setFilename($attachment->getName()));
         }
 
@@ -183,16 +192,17 @@ class StandardSender implements SenderInterface
     {
         $mail->setBody($this->getOption($data, 'body', $mail->getBody()));
         $mail->setSubject($this->getOption($data, 'subject', $mail->getSubject()));
-        $mail->setResponseTo($this->getOption($data, 'responseTo', $mail->getResponseTo()));
-        $mail->setFromName($this->getOption($data, 'fromName', $mail->getFromName()));
+        $mail->setResponseTo($this->getOption($data, 'responseTo', $mail->getResponseTo() ?: $this->senderAddress));
+        $mail->setFromName($this->getOption($data, 'fromName', $mail->getFromName() ?: $this->senderName));
         $mail->setReceivers($this->getOption($data, 'receivers', $mail->getReceivers()));
         $mail->setVariables(
             $this->getOption($data, 'variables', is_array($mail->getVariables()) ? $mail->getVariables() : [])
         );
         $mail->setAttachments(
-            $this->getOption($data, 'attachments', is_array($mail->getAttachments()) ? $mail->getAttachments() : [])
+            $this->getOption($data, 'attachments', $mail->getAttachments() ?: [])
         );
 
+        $mail->addVariable('ccs', $this->getOption($data, 'ccs', []));
         $mail->addVariable('fromName', $mail->getFromName());
         $mail->addVariable('responseTo', $mail->getResponseTo());
         $mail->addVariable('base_url', $this->baseUrl);
@@ -262,4 +272,4 @@ class StandardSender implements SenderInterface
     }
 
 
-} 
+}

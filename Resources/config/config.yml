@@ -1,2 +1,6 @@
 imports:
     - { resource: "sylius_crud.yml" }
+
+parameters:
+     sender_name: %mailer_user%
+     sender_address: %mailer_user%

@@ -1,4 +1,4 @@
 services:
-    positibe_mailing.sender.sulius:
+    positibe_mailing.sender.sylius:
         class: Positibe\Bundle\MailingBundle\Sender\SyliusSender
         arguments: [@sylius.email_sender]

@@ -33,6 +33,10 @@ class DeliveryMailsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
+            $context = $this->getContainer()->get('router')->getContext();
+            list($schema, $host) = explode('://',$this->getContainer()->getParameter('base_url'));
+            $context->setHost($host);
+            $context->setScheme($schema);
             $deliveries = $this->getContainer()->get('positibe_mailing.mail_delivery')->deliver();
             $output->writeln(sprintf('%s boletines enviados', count($deliveries)));
         } catch (\Exception $e) {

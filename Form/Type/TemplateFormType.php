@@ -62,7 +62,7 @@ class TemplateFormType extends AbstractType
                 )
             );
 
-        if ($this->checker->isGranted('ROLE_ADMIN')) {
+        if ($this->checker->isGranted('ROLE_ADMIN') || $options['data'] === null || $options['data']->getId() === null) {
             $builder
                 ->add(
                     'code',

@@ -4,6 +4,8 @@ namespace Positibe\Bundle\MailingBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Positibe\Bundle\MailingBundle\Entity\Interfaces\MessageInterface;
+use Positibe\Bundle\MailingBundle\Entity\Traits\MessageTrait;
 use Positibe\Bundle\OrmMediaBundle\Entity\Media;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -14,13 +16,15 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  * @ORM\Table(name="positibe_mailing_mail")
  * @ORM\Entity(repositoryClass="Positibe\Bundle\MailingBundle\Repository\MailRepository")
  */
-class Mail implements SwiftMailerMessageInterface, ResourceInterface
+class Mail implements MessageInterface, ResourceInterface
 {
     const STATE_DRAFT = 'draft';
     const STATE_IN_QUEUE = 'in_queue';
     const STATE_SENDING = 'sending';
     const STATE_ERROR = 'error';
     const STATE_SENT = 'sent';
+
+    use MessageTrait;
 
     /**
      * @var integer
@@ -41,23 +45,9 @@ class Mail implements SwiftMailerMessageInterface, ResourceInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="subjectHtml", type="string", length=255, nullable=TRUE)
-     */
-    private $subjectHtml;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="body", type="text", nullable=TRUE)
      */
     private $body;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="bodyHtml", type="text", nullable=TRUE)
-     */
-    private $bodyHtml;
 
     /**
      * @var string
@@ -80,13 +70,6 @@ class Mail implements SwiftMailerMessageInterface, ResourceInterface
      * @ORM\Column(name="code", type="string", length=255)
      */
     private $code;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="swift_mailer_message", type="string", length=255, nullable=TRUE)
-     */
-    private $swiftMailerMessage;
 
     /**
      * @var \DateTime
@@ -194,13 +177,6 @@ class Mail implements SwiftMailerMessageInterface, ResourceInterface
      * @ORM\Column(name="token", type="string", length=255, nullable=TRUE)
      */
     private $token;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="messageError", type="string", length=255, nullable=TRUE)
-     */
-    private $messageError;
 
     /**
      * @var array
@@ -796,69 +772,5 @@ class Mail implements SwiftMailerMessageInterface, ResourceInterface
     public function setStatistics($statistics)
     {
         $this->statistics = $statistics;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMessageError()
-    {
-        return $this->messageError;
-    }
-
-    /**
-     * @param string $messageError
-     */
-    public function setMessageError($messageError)
-    {
-        $this->messageError = $messageError;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBodyHtml()
-    {
-        return $this->bodyHtml;
-    }
-
-    /**
-     * @param string $bodyHtml
-     */
-    public function setBodyHtml($bodyHtml)
-    {
-        $this->bodyHtml = $bodyHtml;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSwiftMailerMessage()
-    {
-        return $this->swiftMailerMessage;
-    }
-
-    /**
-     * @param string $swiftMailerMessage
-     */
-    public function setSwiftMailerMessage($swiftMailerMessage)
-    {
-        $this->swiftMailerMessage = $swiftMailerMessage;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSubjectHtml()
-    {
-        return $this->subjectHtml;
-    }
-
-    /**
-     * @param string $subjectHtml
-     */
-    public function setSubjectHtml($subjectHtml)
-    {
-        $this->subjectHtml = $subjectHtml;
     }
 }

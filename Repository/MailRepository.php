@@ -2,7 +2,6 @@
 
 namespace Positibe\Bundle\MailingBundle\Repository;
 
-
 use Positibe\Bundle\MailingBundle\Entity\Mail;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
@@ -23,7 +22,7 @@ class MailRepository extends EntityRepository
         $qb = $this->createQueryBuilder('n')
             ->addSelect('a')
             ->leftJoin('n.attachments', 'a')
-            ->where('n.sendAt <= :date')
+            ->where('NOT n.sendAt > :date OR n.sendAt IS NULL')
             ->andWhere('n.state = :readyToSentState')
             ->orderBy('n.createdAt', 'DESC')
             ->setParameters(

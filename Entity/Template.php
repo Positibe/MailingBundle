@@ -3,13 +3,14 @@
 namespace Positibe\Bundle\MailingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Positibe\Bundle\OrmMediaBundle\Entity\Media;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * Template
  *
  * @ORM\Table(name="positibe_mailing_template")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Positibe\Bundle\MailingBundle\Repository\TemplateRepository")
  */
 class Template implements ResourceInterface
 {
@@ -20,81 +21,87 @@ class Template implements ResourceInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=TRUE)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string
      *
      * @ORM\Column(name="subject", type="string", length=255)
      */
-    private $subject;
+    protected $subject;
 
     /**
      * @var string
      *
      * @ORM\Column(name="body", type="text")
      */
-    private $body;
+    protected $body;
 
     /**
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=255)
      */
-    private $code;
+    protected $code;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="public", type="boolean")
      */
-    private $public = true;
+    protected $public = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="deleteable", type="boolean")
      */
-    private $deleteable = false;
+    protected $deleteable = false;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var array
      *
      * @ORM\Column(name="availableRoles", type="array")
      */
-    private $availableRoles;
+    protected $availableRoles;
 
     /**
-     * @var integer
+     * @var Media
      *
-     * @ORM\ManyToOne(targetEntity="Positibe\Bundle\OrmMediaBundle\Entity\Media", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Positibe\Bundle\OrmMediaBundle\Entity\Media", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="image_id")
      */
-    private $image;
+    protected $image;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
     }
 
+    public function __toString()
+    {
+        return $this->description;
+    }
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -117,7 +124,7 @@ class Template implements ResourceInterface
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -140,7 +147,7 @@ class Template implements ResourceInterface
     /**
      * Get subject
      *
-     * @return string 
+     * @return string
      */
     public function getSubject()
     {
@@ -163,7 +170,7 @@ class Template implements ResourceInterface
     /**
      * Get body
      *
-     * @return string 
+     * @return string
      */
     public function getBody()
     {
@@ -186,7 +193,7 @@ class Template implements ResourceInterface
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -209,7 +216,7 @@ class Template implements ResourceInterface
     /**
      * Get public
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPublic()
     {
@@ -232,7 +239,7 @@ class Template implements ResourceInterface
     /**
      * Get deleteable
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleteable()
     {
@@ -255,7 +262,7 @@ class Template implements ResourceInterface
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -278,7 +285,7 @@ class Template implements ResourceInterface
     /**
      * Get availableRoles
      *
-     * @return array 
+     * @return array
      */
     public function getAvailableRoles()
     {
@@ -286,7 +293,7 @@ class Template implements ResourceInterface
     }
 
     /**
-     * @return int
+     * @return Media
      */
     public function getImage()
     {
@@ -294,7 +301,7 @@ class Template implements ResourceInterface
     }
 
     /**
-     * @param int $image
+     * @param Media $image
      */
     public function setImage($image)
     {

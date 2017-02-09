@@ -58,3 +58,9 @@ services:
         arguments: [@security.authorization_checker]
         tags:
             - { name: form.type, alias: positibe_template }
+
+#Servicio autogenerado por Pcabreus Generator
+    positibe.mail.form:
+        class: Positibe\Bundle\MailingBundle\Form\Type\MailFormType
+        tags:
+            - { name: form.type, alias: positibe_mail }

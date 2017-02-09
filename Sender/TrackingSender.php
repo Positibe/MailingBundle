@@ -13,6 +13,7 @@ namespace Positibe\Bundle\MailingBundle\Sender;
 use Positibe\Bundle\MailingBundle\Entity\Mail;
 use Positibe\Bundle\MailingBundle\Entity\Statistics;
 use Positibe\Bundle\MailingBundle\Factory\StatisticsFactory;
+use Positibe\Bundle\OrmMediaBundle\Entity\Media;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
@@ -65,43 +66,21 @@ class TrackingSender extends StandardSender
         $mail = $this->mergeData($mail, $data);
 
         try {
-
-
             foreach ($mail->getReceivers() as $email => $name) {
                 $statistics = $this->statisticsFactory->createNewByData($mail, $email, $name);
 
-                $subjectHtml = $this->getSubjectHtml($mail, ['user_name' => $name, 'user_email' => $email]);
-                $bodyHtml = $this->getBodyHtml($mail, ['user_name' => $name, 'user_email' => $email]);
+                $variables = ['user_name' => $name, 'user_email' => $email, '_token' => $statistics->getToken()];
 
-                $bodyHtml = str_replace(
-                    'href="',
-                    sprintf(
-                        'href="%s?url=',
-                        $this->urlGenerator->generate(
-                            'positibe_mailing_tracking_clicked',
-                            ['token' => $statistics->getToken()],
-                            UrlGeneratorInterface::ABSOLUTE_URL
-                        )
-                    ),
-                    $bodyHtml
-                );
-
-                $this->twig->setLoader($loader = new \Twig_Loader_Filesystem(__DIR__ . '/../Resources/views/Tracking'));
-                $bodyHtml = $bodyHtml . $this->twig->render(
-                        'link_to_viewed.html.twig',
-                        array('token' => $statistics->getToken())
-                    );
-
-//                $mail->setBodyHtml($bodyHtml);
-//                $mail->setSubjectHtml($subjectHtml);
+                $statistics->setSubjectHtml($this->getSubjectHtml($mail, $variables));
+                $statistics->setBodyHtml($this->getBodyHtml($mail, $variables));
 
                 $response = $this->createMessage(
                     $statistics,
-                    $subjectHtml,
+                    $statistics->getSubjectHtml(),
                     $mail->getResponseTo(),
                     $mail->getFromName(),
-                    $bodyHtml
-                );;
+                    $this->addTrackingLinks($statistics->getBodyHtml(), $variables['_token'])
+                );
 
                 if ($response === 0) {
                     $mail->addFailure($email, $name);
@@ -116,18 +95,49 @@ class TrackingSender extends StandardSender
 
             $mail->setState(Mail::STATE_SENT);
             $mail->setSentAt(new \DateTime());
+        } catch (\Twig_Error $ex) {
+            $mail->setState(Mail::STATE_ERROR);
+            $mail->setMessageError($ex->getRawMessage());
 
         } catch (\Exception $ex) {
             $mail->setState(Mail::STATE_ERROR);
-            $mail->setMessageError('Error fatal: ' . $ex->getMessage());
-
-            return $mail;
+            $mail->setMessageError('Error fatal: '.$ex->getMessage());
         }
 
         $this->logMail($mail, $data);
 
         return $mail;
     }
+
+    /**
+     * @param $bodyHtml
+     * @param $token
+     * @return mixed|string
+     */
+    public function addTrackingLinks($bodyHtml, $token)
+    {
+        $bodyHtml = str_replace(
+            'href="',
+            sprintf(
+                'href="%s?url=',
+                $this->urlGenerator->generate(
+                    'positibe_mailing_tracking_clicked',
+                    ['token' => $token],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                )
+            ),
+            $bodyHtml
+        );
+
+        $this->twig->setLoader($loader = new \Twig_Loader_Filesystem(__DIR__.'/../Resources/views/Tracking'));
+        $bodyHtml = $bodyHtml.$this->twig->render(
+                'link_to_viewed.html.twig',
+                array('token' => $token)
+            );
+
+        return $bodyHtml;
+    }
+
 
     public function getName()
     {

@@ -1,0 +1,5 @@
+positibe:
+    template:
+        create: La plantilla de correo se ha creado correctamente
+        update: La plantilla de correo se ha modificado correctamente
+        delete: La plantilla de correo se ha eliminado correctamente
