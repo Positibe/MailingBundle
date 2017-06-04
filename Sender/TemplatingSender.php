@@ -10,6 +10,8 @@
 
 namespace Positibe\Bundle\MailingBundle\Sender;
 
+use Positibe\Bundle\MailingBundle\Entity\Mail;
+
 
 /**
  * Class TemplatingSender
@@ -17,68 +19,25 @@ namespace Positibe\Bundle\MailingBundle\Sender;
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class TemplatingSender implements SenderInterface
+class TemplatingSender extends StandardSender
 {
-    protected $mailer;
-    protected $twig;
-    protected $from;
-    protected $fromName;
-
-    public function __construct(
-        \Swift_Mailer $mailer,
-        \Twig_Environment $twig,
-        $from,
-        $fromName
-    ) {
-        $this->mailer = $mailer;
-        $this->twig = $twig;
-        $this->from = $from;
-        $this->fromName = $fromName;
-    }
-
-    public function send($name, array $recipients, array $data = [])
-    {
-        $template = $this->twig->loadTemplate($data['template']);
-
-        $subject = $template->renderBlock('subject', $data['variables']);
-        $bodyHtml = $template->renderBlock('body', $data['variables']);
-        $bodyText = $template->renderBlock('body_text', $data['variables']);
-
-        try {
-            $message = \Swift_Message::newInstance()
-                ->setSubject($subject)
-                ->setFrom($this->from, $this->fromName)
-                ->setTo($recipients)
-                ->setBody($bodyHtml, 'text/html')
-                ->addPart($bodyText, 'text/plain');
-
-            foreach ($this->getOption($data, ['attachments'], []) as $attachment) {
-
-                $message->attach(\Swift_Attachment::fromPath($attachment));
-            }
-
-            $response = $this->mailer->send($message);
-
-        } catch (\Exception $ex) {
-            return $ex->getMessage();
-        }
-
-        return $response;
-    }
-
     /**
-     * @param $data
-     * @param $option
-     * @param null $default
-     * @return null
+     * @param $name
+     * @param array $data
+     * @return Mail
      */
-    public function getOption($data, $option, $default = null)
+    public function getMail($name, array $data = [])
     {
-        if (isset($data[$option]) && $data[$option] !== null) {
-            return $data[$option];
-        }
+        $mail = new Mail();
+        $mail->setTracking(false);
+        $mail->setCode($name);
+        $mail->setResponseTo($this->senderAddress);
+        $mail->setFromName($this->senderName);
 
-        return $default;
+        $mail->setSubject($name);
+        $mail->setBody($name);
+
+        return $mail;
     }
 
     public function getName()
@@ -86,4 +45,31 @@ class TemplatingSender implements SenderInterface
         return 'templating';
     }
 
+    /**
+     * @param Mail $mail
+     * @param array $variables
+     * @return string
+     */
+    public function getBodyHtml(Mail $mail, array $variables = [])
+    {
+        $template = $this->twig->loadTemplate($mail->getBody());
+
+        $bodyHtml = $template->renderBlock('body', array_merge($mail->getVariables(), $variables));
+
+        return $bodyHtml;
+    }
+
+    /**
+     * @param Mail $mail
+     * @param array $variables
+     * @return string
+     */
+    public function getSubjectHtml(Mail $mail, array $variables = [])
+    {
+        $template = $this->twig->loadTemplate($mail->getBody());
+
+        $subjectHtml = $template->renderBlock('subject', array_merge($mail->getVariables(), $variables));
+
+        return $subjectHtml;
+    }
 } 

@@ -1,0 +1,13 @@
+{% macro expand_array(name, variable) %}
+    [ <strong>{{ name }} </strong> =>
+    {% for key, value in variable %}
+        {% if value is iterable %}
+            {{ _self.expand_array(key, value) }}
+        {% elseif value is date %}
+            <strong>{{ key }} </strong> => {{ value | localizeddate('long', 'short') }}
+        {% else %}
+            <strong>{{ key }} </strong> => {{ value }}
+        {% endif %}
+        ,
+    {% endfor %}
+{% endmacro %}

@@ -1,0 +1,89 @@
+action:
+    actions: Acciones
+    filter: Filtro
+    show: Detalles
+    edit: Editar
+    back: Atras
+    save: Guardar
+form:
+    positibe_mail:
+        subject_label: Asunto
+        body_label: Cuerpo
+        fromName_label: De parte de
+        responseTo_label: Responder a
+        code_label: Code
+        createdAt_label: CreatedAt
+        sendAt_label: Fecha y hora de envio
+        sentAt_label: Fecha y hora de enviado
+        state_label: Estado
+        receivers_label: Destinatarios
+        sentCount_label: Veces enviado
+        failuresCount_label: Cantidad de fallos
+        receivedCount_label: Cantidad de recbido
+        openedCount_label: Cantidad de abiertos
+        repliedCount_label: Cantidad de reenviados
+        clicksCount_label: Cantidad de clics
+        bouncedCount_label: Cantidad de rebotado
+        tracking_label: Tracking
+        failures_label: Fallos
+        token_label: Token
+        variables_label: Variables
+        swiftMailerMessage_label: Código interno
+        subjectHtml_label: Asunto (html)
+        bodyHtml_label: Cuerpo (html)
+        messageError_label: Mensaje de error
+        attachments_label: Adjuntos
+
+mail:
+    list:
+        page_title: Lista de correos
+        page_subtitle: Lista de correos
+        create_new: Crear nuevo correo
+        list_empty: No hay correos
+    create:
+        page_title: Nuevo correo
+        page_subtitle: Crear correo
+    update:
+        page_title: Correo
+        page_subtitle: Editar correo
+    show:
+        page_title: Correo
+    form:
+        legend: Datos del correo
+        tab_1: Datos generales
+    breadcrumbs:
+        index: Correos
+        create: Nuevo correo
+    table:
+        id: Id
+        subject: Asunto
+        body: Cuerpo
+        fromName: De parte de
+        responseTo: Responder a
+        code: Code
+        createdAt: Fecha de creación
+        sendAt: Fecha y hora de envio
+        sentAt: Fecha y hora de enviado
+        state: Estado
+        receivers: Enviado a
+        sentCount: Veces enviado
+        failuresCount: Veces fallado el envio
+        receivedCount: Cantidad de enviado satisfactoriamente
+        openedCount: Cantidad de abiertos
+        repliedCount: Cantidad de reenvios
+        clicksCount: Cantidad de clics
+        bouncedCount: Cantidad de rebotes
+        tracking: Tracking
+        failures: Fallos
+        token: Token
+        variables: Variables
+        swiftMailerMessage: Código interno
+        subjectHtml: Asunto (html)
+        bodyHtml: Cuerpo (html)
+        messageError: Mensaje de error
+    state:
+        draft: Borrador
+        in_queue: En cola
+        sending: Enviando
+        error: Error
+        sent: Enviado

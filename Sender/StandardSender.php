@@ -59,7 +59,7 @@ class StandardSender implements SenderInterface
      */
     public function send($name, array $recipients, array $data = [])
     {
-        $mail = $this->getMail($name);
+        $mail = $this->getMail($name, $data);
 
         if (count($recipients) > 0) {
             $data = array_merge(['receivers' => $recipients], $data);
@@ -219,9 +219,11 @@ class StandardSender implements SenderInterface
      */
     public function getBodyHtml(Mail $mail, array $variables = [])
     {
-        $this->twig->setLoader($loader = new \Twig_Loader_String());
+        $twig = new \Twig_Environment($loader = new \Twig_Loader_String());
+        $twig->setExtensions($this->twig->getExtensions());
 
-        $bodyHtml = $this->twig->render(
+
+        $bodyHtml = $twig->render(
             $mail->getBody(),
             array_merge($mail->getVariables(), $variables)
         );
@@ -236,14 +238,15 @@ class StandardSender implements SenderInterface
      */
     public function getSubjectHtml(Mail $mail, array $variables = [])
     {
-        $this->twig->setLoader($loader = new \Twig_Loader_String());
+        $twig = new \Twig_Environment($loader = new \Twig_Loader_String());
+        $twig->setExtensions($this->twig->getExtensions());
 
-        $bodyHtml = $this->twig->render(
+        $subjectHtml = $twig->render(
             $mail->getSubject(),
             array_merge($mail->getVariables(), $variables)
         );
 
-        return $bodyHtml;
+        return $subjectHtml;
     }
 
     /**

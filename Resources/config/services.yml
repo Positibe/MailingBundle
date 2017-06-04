@@ -6,46 +6,46 @@ services:
 
     positibe_mailing.mail_delivery:
         class: Positibe\Bundle\MailingBundle\Delivery\MailDelivery
-        arguments: [@doctrine.orm.entity_manager, @positibe_mailing.sender.container]
+        arguments: ["@doctrine.orm.entity_manager", "@positibe_mailing.sender.container"]
 
     positibe_mailing.by_date_provider:
         class: Positibe\Bundle\MailingBundle\Delivery\Provider\ByDateProvider
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: positibe.mailing.provider }
 
     positibe_mailing.sender.container:
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
         class: Positibe\Bundle\MailingBundle\Sender\ContainerSender
 
     positibe_mailing.sender.standard:
         class: Positibe\Bundle\MailingBundle\Sender\StandardSender
-        arguments: [@mailer, @twig, @doctrine.orm.entity_manager, %sender_name%, %sender_address%, %positibe_orm_media.filesystem_path%, %base_url%]
+        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_orm_media.filesystem_path%", "%base_url%"]
         tags:
             - { name: positibe.mailing.sender, alias: positibe_mailing.sender }
 
     positibe_mailing.sender.templating:
         class: Positibe\Bundle\MailingBundle\Sender\TemplatingSender
-        arguments: [@mailer, @twig, %sender_name%, %sender_address% ]
+        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_orm_media.filesystem_path%", "%base_url%"]
         tags:
             - { name: positibe.mailing.sender }
 
     positibe_mailing.sender.tracking:
         class: Positibe\Bundle\MailingBundle\Sender\TrackingSender
-        arguments: [@mailer, @twig, @doctrine.orm.entity_manager, %sender_name%, %sender_address%, %positibe_orm_media.filesystem_path%, %base_url%]
+        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_orm_media.filesystem_path%", "%base_url%"]
         calls:
-            - [setStatisticsFactory, [@positibe_mailing.statistics_factory]]
-            - [setUrlGenerator, [@router]]
+            - [setStatisticsFactory, ["@positibe_mailing.statistics_factory"]]
+            - [setUrlGenerator, ["@router"]]
         tags:
             - { name: positibe.mailing.sender }
 
     positibe_mailing.statistics_tracker:
         class: Positibe\Bundle\MailingBundle\Statistics\Tracker
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
 
     positibe_mailing.statistics_factory:
         class: Positibe\Bundle\MailingBundle\Factory\StatisticsFactory
-        arguments: [@security.csrf.token_generator]
+        arguments: ["@security.csrf.token_generator"]
 
 #    positibe_mailing.mailing_logger_plugin:
 #        class: Positibe\Bundle\MailingBundle\Swiftmailer\MailingLoggerPlugin
@@ -55,7 +55,7 @@ services:
 #Servicio autogenerado por Pcabreus Generator 
     positibe_mailing.template.form:
         class: Positibe\Bundle\MailingBundle\Form\Type\TemplateFormType
-        arguments: [@security.authorization_checker]
+        arguments: ["@security.authorization_checker"]
         tags:
             - { name: form.type, alias: positibe_template }
 

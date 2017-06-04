@@ -1,0 +1,46 @@
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+<div class="portlet light ">
+    <div class="portlet-title tabbable-line">
+        <div class="caption">
+            <i class="icon-globe theme-font hide"></i>
+            <span class="caption-subject font-green-sharp bold uppercase"><i class="fa  fa-book"></i> {{ 'mail.form.legend' | trans }}</span>
+        </div>
+        <div class="actions btn-set">
+            <a href="{{ path('positibe_mail_index') }}"
+               name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> {{ 'action.back' | trans }}</a>
+            <a href="{{ app.request.server.get('REQUEST_URI') }}" class="btn btn-default btn-circle "><i
+                        class="fa fa-reply"></i> Resetear</a>
+            <button class="btn green-haze btn-circle" type="submit"><i class="fa fa-check"></i> {{ 'action.save' | trans }}</button>
+            {% if mail is defined and mail.id is not null %}
+                <a class="btn red-haze btn-circle" data-toggle="modal" href="#positibe_mail_remove">
+                    <i class="fa fa-trash"></i> {{ 'action.remove' | trans }}
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+    <div class="portlet-body">
+        <div class="tabbable">
+
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#form_congress_tab_basic" data-toggle="tab" aria-expanded="true">{{ 'mail.form.tab_1' | trans }}</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+
+                <div class="tab-pane active" id="form_congress_tab_basic">
+                    {{ form_widget(form) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-actions text-right">
+            <hr>
+            <a href="{{ path('positibe_mail_index') }}" class="btn btn-default">{{ 'action.cancel' | trans }}</a>
+            <button class="btn btn-primary"><i class="fa fa-check"></i> {{ 'action.save' | trans }}</button>
+        </div>
+    </div>
+</div>
+
+

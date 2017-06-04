@@ -1,0 +1,9 @@
+statistics:
+    state:
+        sent: Enviado
+        received: Recibido
+        opened: Abierto
+        clicked: Clicado
+        failed: Fallido
+        replied: Reenviado
+        bounced: Rebotado

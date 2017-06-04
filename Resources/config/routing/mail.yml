@@ -1,0 +1,54 @@
+positibe_mail_create:
+    path: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: positibe.controller.mail:createAction
+        _sylius:
+            template: PositibeMailingBundle:Mail:create.html.twig
+            redirect:
+                route: positibe_mail_show
+                parameters: {id: resource.id}
+
+positibe_mail_show:
+    path: /{id}
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.mail:showAction
+        _sylius:
+            template: PositibeMailingBundle:Mail:show.html.twig
+            criteria:
+                id: $id
+
+positibe_mail_update:
+    path: /{id}/edit
+    methods: [GET, PUT]
+    defaults:
+        _controller: positibe.controller.mail:updateAction
+        _sylius:
+            template: PositibeMailingBundle:Mail:update.html.twig
+            criteria:
+                id: $id
+            redirect:
+                route: positibe_mail_show
+                parameters: {id: resource.id}
+
+positibe_mail_delete:
+    path: /{id}
+    methods: [DELETE]
+    defaults:
+        _controller: positibe.controller.mail:deleteAction
+        _sylius:
+            criteria:
+                id: $id
+            redirect:
+                route: positibe_mail_index
+                parameters: {}
+
+positibe_mail_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.mail:indexAction
+        _sylius:
+            template: PositibeMailingBundle:Mail:index.html.twig
+            sortable: true

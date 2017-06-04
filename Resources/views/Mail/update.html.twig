@@ -1,0 +1,29 @@
+    {% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% from '@PositibeCmf/_macros.html.twig' import delete_confirm %}
+
+    {% block title %}{{ 'mail.update.page_title' | trans }}{% endblock %}
+    {% block subtitle %}{{ 'mail.update.page_subtitle' | trans }}{% endblock %}
+    {% set menu_active = 'mail' %}
+    {% set content_menu = 'mail' %}
+
+    {% block breadcrumb_list %}
+    <li>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ path('positibe_mail_index') }}">{{ 'mail.breadcrumbs.index' | trans }}</a>
+    </li>
+    <li>
+        <i class="fa fa-angle-right"></i>
+        {{mail.id }}
+    </li>
+    {% endblock %}
+
+    {% block content -%}
+
+    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
+    <input type="hidden" name="_method" value="PUT"/>
+    {{ include('PositibeMailingBundle:Mail:_form.html.twig') }}
+    {{ form_end(form) }}
+    {{ delete_confirm('positibe_mail_remove', path('positibe_mail_delete', { 'id': mail.id }) ) }}
+
+    {% endblock -%}

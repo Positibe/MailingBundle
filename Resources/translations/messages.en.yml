@@ -1,0 +1,47 @@
+mail:
+    list:
+        page_title: Page_title
+        page_subtitle: Page_subtitle
+        create_new: Create_new
+        list_empty: List_empty
+    create:
+        page_title: Page_title
+        page_subtitle: Page_subtitle
+    update:
+        page_title: Page_title
+        page_subtitle: Page_subtitle
+    show:
+        page_title: Page_title
+    form:
+        legend: Legend
+        tab_1: Tab_1
+    breadcrumbs:
+        index: Index
+        create: Create
+    table:
+        id: Id
+        subject: Subject
+        body: Body
+        fromName: FromName
+        responseTo: ResponseTo
+        code: Code
+        createdAt: CreatedAt
+        sendAt: SendAt
+        sentAt: SentAt
+        state: State
+        receivers: Receivers
+        sentCount: SentCount
+        failuresCount: FailuresCount
+        receivedCount: ReceivedCount
+        openedCount: OpenedCount
+        repliedCount: RepliedCount
+        clicksCount: ClicksCount
+        bouncedCount: BouncedCount
+        tracking: Tracking
+        failures: Failures
+        token: Token
+        variables: Variables
+        swiftMailerMessage: SwiftMailerMessage
+        subjectHtml: SubjectHtml
+        bodyHtml: BodyHtml
+        messageError: MessageError

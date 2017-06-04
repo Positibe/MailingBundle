@@ -711,13 +711,26 @@ class Mail implements MessageInterface, ResourceInterface
         return $this->variables;
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return $this
+     */
     public function addVariable($name, $value)
     {
         $this->variables[$name] = $value;
 
-
         return $this;
+    }
 
+    /**
+     * @param $name
+     * @param bool|false $default
+     * @return bool
+     */
+    public function getVariable($name, $default = false)
+    {
+        return isset($this->variables[$name]) ? $this->variables[$name] : $default;
     }
 
     /**

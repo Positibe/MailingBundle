@@ -1,0 +1,25 @@
+    {% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% block title %}{{ 'mail.create.page_title' | trans }}{% endblock %}
+    {% block subtitle %}{{ 'mail.create.page_subtitle' | trans }}{% endblock %}
+    {% set menu_active = 'mail' %}
+    {% set content_menu = 'mail' %}
+
+    {% block breadcrumb_list %}
+    <li>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ path('positibe_mail_index') }}">{{ 'mail.breadcrumbs.index' | trans }}</a>
+    </li>
+    <li>
+        <i class="fa fa-angle-right"></i>
+        {{ 'mail.breadcrumbs.create' | trans }}
+    </li>
+    {% endblock %}
+
+    {% block content -%}
+
+    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
+    {{ include('PositibeMailingBundle:Mail:_form.html.twig') }}
+    {{ form_end(form) }}
+
+    {% endblock -%}
