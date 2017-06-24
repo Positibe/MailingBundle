@@ -3,7 +3,7 @@
 namespace Positibe\Bundle\MailingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Positibe\Bundle\OrmMediaBundle\Entity\Media;
+use Positibe\Bundle\MediaBundle\Entity\Media;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
@@ -82,7 +82,7 @@ class Template implements ResourceInterface
     /**
      * @var Media
      *
-     * @ORM\ManyToOne(targetEntity="Positibe\Bundle\OrmMediaBundle\Entity\Media", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Positibe\Bundle\MediaBundle\Entity\Media", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="image_id")
      */
     protected $image;
@@ -94,7 +94,7 @@ class Template implements ResourceInterface
 
     public function __toString()
     {
-        return $this->description;
+        return $this->description ?: $this->code;
     }
 
 

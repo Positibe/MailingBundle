@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Positibe\Bundle\MailingBundle\Entity\Interfaces\MessageInterface;
 use Positibe\Bundle\MailingBundle\Entity\Traits\MessageTrait;
-use Positibe\Bundle\OrmMediaBundle\Entity\Media;
+use Positibe\Bundle\MediaBundle\Entity\Media;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -195,7 +195,7 @@ class Mail implements MessageInterface, ResourceInterface
     /**
      * @var Media[]|ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Positibe\Bundle\OrmMediaBundle\Entity\Media", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="Positibe\Bundle\MediaBundle\Entity\Media", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="positibe_mailing_mail_attachments")
      */
     private $attachments;
@@ -205,6 +205,11 @@ class Mail implements MessageInterface, ResourceInterface
         $this->attachments = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->variables = array();
+    }
+
+    public function __toString()
+    {
+        return $this->code;
     }
 
     /**
@@ -734,7 +739,7 @@ class Mail implements MessageInterface, ResourceInterface
     }
 
     /**
-     * @return ArrayCollection|\Positibe\Bundle\OrmMediaBundle\Entity\Media[]
+     * @return ArrayCollection|\Positibe\Bundle\MediaBundle\Entity\Media[]
      */
     public function getAttachments()
     {
@@ -742,7 +747,7 @@ class Mail implements MessageInterface, ResourceInterface
     }
 
     /**
-     * @param ArrayCollection|\Positibe\Bundle\OrmMediaBundle\Entity\Media[] $attachments
+     * @param ArrayCollection|\Positibe\Bundle\MediaBundle\Entity\Media[] $attachments
      */
     public function setAttachments($attachments)
     {

@@ -5,9 +5,11 @@
 
 namespace Positibe\Bundle\MailingBundle\Form\Type;
 
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use Positibe\Bundle\MediaBundle\Form\Type\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
@@ -38,12 +40,13 @@ class TemplateFormType extends AbstractType
             )
             ->add(
                 'body',
-                null,
+                CKEditorType::class,
                 array(
                     'label' => 'Cuerpo:',
+                    'config_name' => 'content',
                     'attr' => array(
-                        'rows' => 10
-                    )
+                        'rows' => 10,
+                    ),
                 )
             )
             ->add(
@@ -56,13 +59,15 @@ class TemplateFormType extends AbstractType
             )
             ->add(
                 'image',
-                'positibe_media_type',
+                ImageType::class,
                 array(
-                    'label' => 'Imagen:'
+                    'label' => 'Imagen:',
                 )
             );
 
-        if ($this->checker->isGranted('ROLE_ADMIN') || $options['data'] === null || $options['data']->getId() === null) {
+        if ($this->checker->isGranted('ROLE_ADMIN') || $options['data'] === null || $options['data']->getId(
+            ) === null
+        ) {
             $builder
                 ->add(
                     'code',
@@ -84,13 +89,13 @@ class TemplateFormType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'Positibe\Bundle\MailingBundle\Entity\Template'
+                'data_class' => 'Positibe\Bundle\MailingBundle\Entity\Template',
             )
         );
     }
@@ -98,7 +103,7 @@ class TemplateFormType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'positibe_template';
     }

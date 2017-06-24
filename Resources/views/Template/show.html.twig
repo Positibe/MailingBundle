@@ -1,78 +1,35 @@
-{% extends '@PositibeCmf/layout.html.twig' %}
+{% set extends = 'admin.html.twig' %}
+{% set icon = 'fa fa-envelope' %}
 
-    {% block title %}Plantillas{% endblock %}
-    {% block subtitle %}{{ template.code }}{% endblock %}
-    {% set menu_active = 'template' %}
-    {% set content_menu = 'template' %}
-
-    {% block breadcrumb_list %}
-        <li>
-            <i class="fa fa-angle-right"></i>
-            <a href="{{ path('positibe_template_index') }}">Plantillas</a>
-        </li>
-        <li>
-            <i class="fa fa-angle-right"></i>
-            {{ template.code }}
-        </li>
+{% embed '@PositibeCore/Grid/show.html.twig' %}
+    {% block actions %}
+        <a href="{{ path('positibe_template_preview', { 'id': template.id }) }}"
+           class="btn btn-default btn-circle">
+            <i class="fa fa-search"></i> Vista previa
+        </a>
+        {{ parent() }}
     {% endblock %}
+    {% block content_body %}
+        <h4>Nombre: {{ template.code }}</h4>
+        <h4>Público: {% if template.public %}<i class="fa fa-check text-success"></i>{% else %}<i
+                    class="fa fa-times text-muted"></i>{% endif %}</h4>
+        <p></p>
+        <h4>Eliminable: {% if template.deleteable %}<i class="fa fa-check text-success"></i>{% else %}<i
+                    class="fa fa-times text-muted"></i>{% endif %}</h4>
 
-    {% block content -%}
+        <h4>Creada <i class="fa fa-calendar"></i> {{ template.createdAt|localizeddate('long', 'none') }} </h4>
 
-        <div class="portlet light">
-            <div class="portlet-title">
-                <div class="caption">
-                    <p class="caption-subject font-green-sharp bold uppercase">
-                        <i class="fa fa-book"></i> Plantilla: {{ template.code }}
-                    </p>
-                </div>
-                <div class="actions">
-                    <a href="{{ path('positibe_template_index') }}"
-                       name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> Atras</a>
+        <p></p>
+        {#<h4>#}
+        {#Availableroles</h4>#}
 
-                    <a href="{{ path('positibe_template_preview', { 'code': template.code }) }}"
-                       class="btn btn-default btn-circle">
-                        <i class="fa fa-search"></i> Vista previa
-                    </a>
-                    <a href="{{ path('positibe_template_update', { 'code': template.code }) }}"
-                       class="btn btn-default btn-circle">
-                        <i class="fa fa-edit"></i> Editar
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <div class="tabbable">
-                    <ul class="nav nav-tabs nav-tabs-lg">
-                        <li class="active">
-                            <a href="#tab_1" data-toggle="tab" aria-expanded="true">
-                                Detalles </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_1">
+        {#<p>{{ template.availableRoles }}</p>#}
+        <h4>Descripción:</h4>
 
-                            <h4>Nombre: {{ template.code }}</h4>
-                            <h4>Público: {% if template.public %}<i class="fa fa-check text-success"></i>{% else %}<i class="fa fa-times text-muted"></i>{% endif %}</h4>
-                            <p>  </p>
-                            <h4>Eliminable: {% if template.deleteable %}<i class="fa fa-check text-success"></i>{% else %}<i class="fa fa-times text-muted"></i>{% endif %}</h4>
-
-                            <h4>Creada <i class="fa fa-calendar"></i> {{ template.createdAt|localizeddate('long', 'none') }} </h4>
-
-                            <p></p>
-                            {#<h4>#}
-                                {#Availableroles</h4>#}
-
-                            {#<p>{{ template.availableRoles }}</p>#}
-                            <h4>Descripción:</h4>
-
-                            <p>{{ template.description }}</p>
-                            <h4>Asunto: <small>{{ template.subject }}</small></h4>
-                            <p>{{ template.body | raw }}</p>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    {% endblock -%}
+        <p>{{ template.description }}</p>
+        <h4>Asunto:
+            <small>{{ template.subject }}</small>
+        </h4>
+        <p>{{ template.body | raw }}</p>
+    {% endblock %}
+{% endembed %}

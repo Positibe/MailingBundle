@@ -1,136 +1,92 @@
-{% extends '@PositibeCmf/layout.html.twig' %}
+{% set extends = 'admin.html.twig' %}
+{% set icon = 'fa fa-envelope' %}
 
-{% block title %}{{ 'mail.show.page_title' | trans }}{% endblock %}
-{% block subtitle %}{{ mail.id }}{% endblock %}
-{% set menu_active = 'mail' %}
-{% set content_menu = 'mail' %}
+{% embed '@PositibeCore/Grid/show.html.twig' %}
+    {% block actions %}
+        {{ parent() }}
+        {#<a href="{{ path('positibe_post_comment_create', {'postName': post.name}) }}"
+           class="btn btn-sm btn-info"><i class="fa fa-comment"></i> {{ 'post_comment.list.create_new' | trans }}</a>#}
+    {% endblock %}
+    {% block content_body %}
+        <h4>{{ 'mail.table.subject' | trans }}</h4>
 
+        <p>{{ (mail.subjectHtml | default(mail.subject)) | raw }}</p>
+        <h4>{{ 'mail.table.body' | trans }}</h4>
 
-{% from '@PositibeMailing/macros.html.twig' import expand_array %}
+        <p>{{ (mail.bodyHtml | default(mail.body)) | raw }}</p>
+        <h4>{{ 'mail.table.fromName' | trans }}</h4>
 
-{% block breadcrumb_list %}
-    <li>
-        <i class="fa fa-angle-right"></i>
-        <a href="{{ path('positibe_mail_index') }}">{{ 'mail.breadcrumbs.index' | trans }}</a>
-    </li>
-    <li>
-        <i class="fa fa-angle-right"></i>
-        {{ mail.id }}
-    </li>
-{% endblock %}
+        <p>{{ mail.fromName }}</p>
+        <h4>{{ 'mail.table.responseTo' | trans }}</h4>
 
-{% block content -%}
+        <p>{{ mail.responseTo }}</p>
+        <h4>{{ 'mail.table.code' | trans }}</h4>
 
-    <div class="portlet light">
-        <div class="portlet-title">
-            <div class="caption">
-                <p class="caption-subject font-green-sharp bold uppercase">
-                    <i class="fa fa-book"></i> Mail: {{ mail.id }}
-                </p>
-            </div>
-            <div class="actions">
-                <a href="{{ path('positibe_mail_index') }}"
-                   name="back" class="btn btn-default btn-circle"><i
-                            class="fa fa-angle-left"></i> {{ 'action.back' | trans }}</a>
+        <p>{{ mail.code }}</p>
+        <h4>{{ 'mail.table.createdAt' | trans }}</h4>
 
-                <a href="{{ path('positibe_mail_update', { 'id': mail.id }) }}"
-                   class="btn btn-default btn-circle">
-                    <i class="fa fa-edit"></i> {{ 'action.edit' | trans }}
-                </a>
-            </div>
-        </div>
-        <div class="portlet-body">
-            <div class="tabbable">
-                <ul class="nav nav-tabs nav-tabs-lg">
-                    <li class="active">
-                        <a href="#tab_1" data-toggle="tab" aria-expanded="true">
-                            Detalles </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="tab_1">
-                        <h4>{{ 'mail.table.subject' | trans }}</h4>
+        <p>{{ mail.createdAt|localizeddate('long', 'none') }}</p>
+        <h4>{{ 'mail.table.sendAt' | trans }}</h4>
 
-                        <p>{{ (mail.subjectHtml | default(mail.subject)) | raw }}</p>
-                        <h4>{{ 'mail.table.body' | trans }}</h4>
+        <p>{{ mail.sendAt|localizeddate('long', 'none') }}</p>
+        <h4>{{ 'mail.table.sentAt' | trans }}</h4>
 
-                        <p>{{ (mail.bodyHtml | default(mail.body)) | raw }}</p>
-                        <h4>{{ 'mail.table.fromName' | trans }}</h4>
+        <p>{{ mail.sentAt|localizeddate('long', 'none') }}</p>
+        <h4>{{ 'mail.table.state' | trans }}</h4>
 
-                        <p>{{ mail.fromName }}</p>
-                        <h4>{{ 'mail.table.responseTo' | trans }}</h4>
+        <p>{{ mail.state }}</p>
+        <h4>{{ 'mail.table.receivers' | trans }}</h4>
 
-                        <p>{{ mail.responseTo }}</p>
-                        <h4>{{ 'mail.table.code' | trans }}</h4>
+        <p>{{ mail.receivers | join(', ') }}</p>
+        <h4>{{ 'mail.table.sentCount' | trans }}</h4>
 
-                        <p>{{ mail.code }}</p>
-                        <h4>{{ 'mail.table.createdAt' | trans }}</h4>
+        <p>{{ mail.sentCount }}</p>
+        <h4>{{ 'mail.table.failuresCount' | trans }}</h4>
 
-                        <p>{{ mail.createdAt|localizeddate('long', 'none') }}</p>
-                        <h4>{{ 'mail.table.sendAt' | trans }}</h4>
+        <p>{{ mail.failuresCount }}</p>
+        <h4>{{ 'mail.table.receivedCount' | trans }}</h4>
 
-                        <p>{{ mail.sendAt|localizeddate('long', 'none') }}</p>
-                        <h4>{{ 'mail.table.sentAt' | trans }}</h4>
+        <p>{{ mail.receivedCount }}</p>
+        <h4>{{ 'mail.table.openedCount' | trans }}</h4>
 
-                        <p>{{ mail.sentAt|localizeddate('long', 'none') }}</p>
-                        <h4>{{ 'mail.table.state' | trans }}</h4>
+        <p>{{ mail.openedCount }}</p>
+        <h4>{{ 'mail.table.repliedCount' | trans }}</h4>
 
-                        <p>{{ mail.state }}</p>
-                        <h4>{{ 'mail.table.receivers' | trans }}</h4>
+        <p>{{ mail.repliedCount }}</p>
+        <h4>{{ 'mail.table.clicksCount' | trans }}</h4>
 
-                        <p>{{ mail.receivers | join(', ') }}</p>
-                        <h4>{{ 'mail.table.sentCount' | trans }}</h4>
+        <p>{{ mail.clicksCount }}</p>
+        <h4>{{ 'mail.table.bouncedCount' | trans }}</h4>
 
-                        <p>{{ mail.sentCount }}</p>
-                        <h4>{{ 'mail.table.failuresCount' | trans }}</h4>
+        <p>{{ mail.bouncedCount }}</p>
+        <h4>{{ 'mail.table.tracking' | trans }}</h4>
 
-                        <p>{{ mail.failuresCount }}</p>
-                        <h4>{{ 'mail.table.receivedCount' | trans }}</h4>
+        <p>{{ mail.tracking }}</p>
+        <h4>{{ 'mail.table.failures' | trans }}</h4>
 
-                        <p>{{ mail.receivedCount }}</p>
-                        <h4>{{ 'mail.table.openedCount' | trans }}</h4>
+        <p>{{ mail.failures }}</p>
+        <h4>{{ 'mail.table.token' | trans }}</h4>
 
-                        <p>{{ mail.openedCount }}</p>
-                        <h4>{{ 'mail.table.repliedCount' | trans }}</h4>
+        <p>{{ mail.token }}</p>
+        <h4>{{ 'mail.table.variables' | trans }}</h4>
+        <table class="table">
+            {% for variable, value in mail.variables %}
+                {% dump(value) %}
+                <tr>
+                    <td>
+                        {{ variable ~ ": " ~ (value | default('~'))}}
+                    </td>
+                </tr>
 
-                        <p>{{ mail.repliedCount }}</p>
-                        <h4>{{ 'mail.table.clicksCount' | trans }}</h4>
-
-                        <p>{{ mail.clicksCount }}</p>
-                        <h4>{{ 'mail.table.bouncedCount' | trans }}</h4>
-
-                        <p>{{ mail.bouncedCount }}</p>
-                        <h4>{{ 'mail.table.tracking' | trans }}</h4>
-
-                        <p>{{ mail.tracking }}</p>
-                        <h4>{{ 'mail.table.failures' | trans }}</h4>
-
-                        <p>{{ mail.failures }}</p>
-                        <h4>{{ 'mail.table.token' | trans }}</h4>
-
-                        <p>{{ mail.token }}</p>
-                        <h4>{{ 'mail.table.variables' | trans }}</h4>
-                        <table class="table">
-                            {% for variable, value in mail.variables %}
-                                <tr>
-                                    <td>
-                                        {{ expand_array(variable, value) }}
-                                    </td>
-                                </tr>
-
-                            {% endfor %}
-                        </table>
+            {% endfor %}
+        </table>
 
 
-                        <h4>{{ 'mail.table.swiftMailerMessage' | trans }}</h4>
+        <h4>{{ 'mail.table.swiftMailerMessage' | trans }}</h4>
 
-                        <p>{{ mail.swiftMailerMessage }}</p>
-                        <h4>{{ 'mail.table.messageError' | trans }}</h4>
+        <p>{{ mail.swiftMailerMessage }}</p>
+        <h4>{{ 'mail.table.messageError' | trans }}</h4>
 
-                        <p>{{ mail.messageError }}</p></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-{% endblock -%}
+        <p>{{ mail.messageError }}</p>
+    {% endblock %}
+{% endembed -%}

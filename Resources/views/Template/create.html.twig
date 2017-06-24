@@ -1,25 +1,8 @@
-    {% extends '@PositibeCmf/layout.html.twig' %}
+{% set extends = 'admin.html.twig' %}
+{% set icon = 'fa fa-book' %}
 
-    {% block title %}Plantilla{% endblock %}
-    {% block subtitle %}Crear nueva plantilla{% endblock %}
-    {% set menu_active = 'template' %}
-    {% set content_menu = 'template' %}
-
-    {% block breadcrumb_list %}
-    <li>
-        <i class="fa fa-angle-right"></i>
-        <a href="{{ path('positibe_template_index') }}">Plantilla</a>
-    </li>
-    <li>
-        <i class="fa fa-angle-right"></i>
-        Nueva plantilla
-    </li>
-    {% endblock %}
-
-    {% block content -%}
-
-    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
+{% embed '@PositibeCore/Grid/create.html.twig' %}
+    {% block content_form %}
         {{ include('@PositibeMailing/Template/_form.html.twig') }}
-    {{ form_end(form) }}
-
-    {% endblock -%}
+    {% endblock %}
+{% endembed %}

@@ -13,6 +13,7 @@ namespace Positibe\Bundle\MailingBundle\Factory;
 use Positibe\Bundle\MailingBundle\Entity\Mail;
 use Positibe\Bundle\MailingBundle\Entity\Statistics;
 use Sylius\Component\Resource\Factory\Factory;
+use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 
@@ -22,14 +23,13 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class StatisticsFactory extends Factory
+class StatisticsFactory implements FactoryInterface
 {
     protected $tokenGenerator;
 
     public function __construct(TokenGeneratorInterface $tokenGenerator)
     {
         $this->tokenGenerator = $tokenGenerator;
-        parent::__construct('Positibe\Bundle\MailingBundle\Entity\Statistics');
     }
 
     /**

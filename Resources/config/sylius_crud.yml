@@ -7,7 +7,7 @@ sylius_resource:
                 model: Positibe\Bundle\MailingBundle\Entity\Template
                 controller: Sylius\Bundle\ResourceBundle\Controller\ResourceController
                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-
+                form: Positibe\Bundle\MailingBundle\Form\Type\TemplateFormType
         positibe.mail:
             driver: doctrine/orm
             templates: PositibeMailingBundle:Mail

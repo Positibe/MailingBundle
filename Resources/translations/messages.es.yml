@@ -87,3 +87,34 @@ mail:
         sending: Enviando
         error: Error
         sent: Enviado
+template:
+    list:
+        page_title: Lista de plantillas
+        page_subtitle: Lista de plantilla
+        create_new: Crear nueva plantilla
+        list_empty: No hay plantillas
+    create:
+        page_title: Nueva plantilla
+        page_subtitle: Crear plantilla
+    update:
+        page_title: Plantilla
+        page_subtitle: Editar plantilla
+    show:
+        page_title: Plantilla
+    form:
+        legend: Datos de la plantilla
+        tab_1: Datos generales
+    breadcrumbs:
+        index: Plantillas
+        create: Nueva plantilla
+    table:
+        subject: Asunto
+        code: Código
+        description: Descripción
+        createdAt: Fecha de creación
+    state:
+        draft: Borrador
+        in_queue: En cola
+        sending: Enviando
+        error: Error
+        sent: Enviado

@@ -1,116 +1,15 @@
-{% extends '@PositibeCmf/layout.html.twig' %}
+{% set extends = 'admin.html.twig' %}
+{% set icon = 'fa fa-envelope' %}
+{% set attributes = {
+'subject':{'main':true, 'filter': null, 'order': true},
+'receivers':{'type': 'join'},
+'sendAt': {'type': 'date'},
+'sentAt': {'type': 'date'},
+'sentCount':{},
+'failures':{},
+'state':{'badge': true, 'trans': 'mail.state.', 'filter': {'draft':'draft','in_queue':'in_queue','sending':'sending','error':'error','sent':'sent'},'order': true},
+} %}
 
-{% from '@PositibeCmf/_macros.html.twig' import pagination %}
-{% import '@PositibeCmf/_buttons.html.twig' as buttons %}
-
-{% block title %}{{ 'mail.list.page_title' | trans }}{% endblock %}
-{% block subtitle %}{{ 'mail.list.page_subtitle' | trans }}{% endblock %}
-{% set menu_active = 'mail' %}
-{% set content_menu = 'mail' %}
-
-{% block breadcrumb_list %}
-    <li>
-        <i class="fa fa-angle-right"></i>
-        <a href="{{ path('positibe_mail_index') }}">{{ 'mail.breadcrumbs.index' | trans }}</a>
-    </li>
-{% endblock %}
-
-{% block content -%}
-    <form action="" method="get" id="form_mail_filter" name="criteria"></form>
-    <div class="portlet light">
-        <div class="portlet-title">
-            <div class="caption">
-                <p class="caption-subject font-green-sharp bold uppercase"><i
-                            class="fa "></i>{{ 'mail.list.page_title' | trans }}
-                </p>
-            </div>
-            <div class="actions">
-                <a href="{{ path('positibe_mail_create') }}"
-                   class="btn btn-sm btn-default btn-circle"><i
-                            class="fa fa-plus"></i> {{ 'mail.list.create_new' | trans }}</a>
-            </div>
-        </div>
-        <div class="portlet-body">
-            {{ pagination(mails) }}
-            <table class="table table-striped table-bordered table-hover">
-                <tr>
-                    <th style="width: 60px">No.</th>
-                    <th>{{ sylius_resource_sort('subject','mail.table.subject' | trans) }}</th>
-                    <th>{{ sylius_resource_sort('sendAt','mail.table.sendAt' | trans) }}</th>
-                    <th>{{ sylius_resource_sort('sentAt','mail.table.sentAt' | trans) }}</th>
-                    <th>{{ sylius_resource_sort('state','mail.table.state' | trans) }}</th>
-                    <th>{{ 'mail.table.receivers' | trans }}</th>
-                    <th>{{ sylius_resource_sort('sentCount','mail.table.sentCount' | trans) }}</th>
-                    <th>{{ 'mail.table.failures' | trans }}</th>
-                    <th style="width: 95px">{{ 'action.actions' | trans }}</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th>
-                        <input class="input-sm form-control" form="form_mail_filter"
-                               name="criteria[subject]"
-                               value="{{ app.request.get('criteria').subject | default() }}">
-                    </th>
-                    <th>
-                    </th>
-                    <th>
-                    </th>
-                    <th>
-                        <input class="input-sm form-control" form="form_mail_filter"
-                               name="criteria[state]"
-                               value="{{ app.request.get('criteria').state | default() }}">
-                    </th>
-                    <th>
-                    </th>
-                    <th>
-                        <input class="input-sm form-control" form="form_mail_filter"
-                               name="criteria[sentCount]"
-                               value="{{ app.request.get('criteria').sentCount | default() }}">
-                    </th>
-                    <th>
-                    </th>
-                    <th>
-                        <div class="input-group-btn">
-                            <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit"
-                                    form="form_mail_filter"><i
-                                        class="fa fa-search"></i> {{ 'action.filter' | trans }}
-                            </button>
-                        </div>
-                    </th>
-                </tr>
-                {% set count = mails.maxPerPage * (mails.currentPage - 1) %}
-                {% for mail in mails %}
-                    <tr>
-                        <td>{{ count + loop.index }}</td>
-                        <td>
-                            <a href="{{ path('positibe_mail_update', { 'id': mail.id }) }}">{{ mail.subject }}</a>
-                        </td>
-                        <td>{% if mail.sendAt %}{{ mail.sendAt|localizeddate('long', 'none') }}{% endif %}</td>
-                        <td>{% if mail.sentAt %}{{ mail.sentAt|localizeddate('long', 'none') }}{% endif %}</td>
-                        <td>{{ ('mail.state.' ~ mail.state)| trans }}</td>
-                        <td>{{ mail.receivers | join(', ') }}</td>
-                        <td>{{ mail.sentCount }}</td>
-                        <td>{{ mail.failures }}</td>
-                        <td>
-                            <div class="input-group">
-                                <a class="btn btn-default btn-xs"
-                                   href="{{ path('positibe_mail_show', { 'id': mail.id }) }}"><i
-                                            class="fa fa-search"></i> {{ 'action.show' | trans }}</a>
-                                <a class="btn btn-default btn-xs"
-                                   href="{{ path('positibe_mail_update', { 'id': mail.id }) }}"><i
-                                            class="fa fa-edit"></i> {{ 'action.edit' | trans }}</a>
-
-                            </div>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="28">{{ 'mail.list.list_empty' | trans }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-            {{ pagination(mails) }}
-        </div>
-    </div>
-
-{% endblock %}
+{% embed '@PositibeCore/Grid/index.html.twig' %}
+    {% block actions %}{% endblock %}
+{% endembed %}

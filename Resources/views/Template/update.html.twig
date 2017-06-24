@@ -1,28 +1,8 @@
-    {% extends '@PositibeCmf/layout.html.twig' %}
+{% set extends = 'admin.html.twig' %}
+{% set icon = 'fa fa-book' %}
 
-    {% from '@PositibeCmf/_macros.html.twig' import delete_confirm %}
-
-    {% block title %}Plantillas{% endblock %}
-    {% block subtitle %}Editar plantilla{% endblock %}
-    {% set menu_active = 'template' %}
-    {% set content_menu = 'template' %}
-
-    {% block breadcrumb_list %}
-    <li>
-        <i class="fa fa-angle-right"></i>
-        <a href="{{ path('positibe_template_index') }}">Plantillas</a>
-    </li>
-    <li>
-        <i class="fa fa-angle-right"></i>
-        {{template.code }}
-    </li>
+{% embed '@PositibeCore/Grid/update.html.twig' %}
+    {% block content_form %}
+        {{ include('@PositibeMailing/Template/_form.html.twig') }}
     {% endblock %}
-
-    {% block content -%}
-
-    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
-    <input type="hidden" name="_method" value="PUT"/>
-    {{ include('@PositibeMailing/Template/_form.html.twig') }}    {{ form_end(form) }}
-    {{ delete_confirm('positibe_template_remove', path('positibe_template_delete', { 'code': template.code }) ) }}
-
-    {% endblock -%}
+{% endembed %}

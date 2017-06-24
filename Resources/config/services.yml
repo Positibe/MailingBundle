@@ -20,19 +20,19 @@ services:
 
     positibe_mailing.sender.standard:
         class: Positibe\Bundle\MailingBundle\Sender\StandardSender
-        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_orm_media.filesystem_path%", "%base_url%"]
+        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_media.web_root% ~ %positibe_media.url_path%", "%base_url%"]
         tags:
             - { name: positibe.mailing.sender, alias: positibe_mailing.sender }
 
     positibe_mailing.sender.templating:
         class: Positibe\Bundle\MailingBundle\Sender\TemplatingSender
-        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_orm_media.filesystem_path%", "%base_url%"]
+        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_media.web_root% ~ %positibe_media.url_path%", "%base_url%"]
         tags:
             - { name: positibe.mailing.sender }
 
     positibe_mailing.sender.tracking:
         class: Positibe\Bundle\MailingBundle\Sender\TrackingSender
-        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_orm_media.filesystem_path%", "%base_url%"]
+        arguments: ["@mailer", "@twig", "@doctrine.orm.entity_manager", "%sender_name%", "%sender_address%", "%positibe_media.web_root% ~ %positibe_media.url_path%", "%base_url%"]
         calls:
             - [setStatisticsFactory, ["@positibe_mailing.statistics_factory"]]
             - [setUrlGenerator, ["@router"]]

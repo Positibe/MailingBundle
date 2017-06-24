@@ -5,42 +5,35 @@ positibe_template_create:
         _controller: positibe.controller.template:createAction
         _sylius:
             redirect:
-                route: positibe_template_show
-                parameters: {code: resource.code}
+                route: positibe_template_update
+                parameters: {id: resource.id}
 
 positibe_template_show:
-    path: /{code}
+    path: /{id}
     methods: [GET]
     defaults:
         _controller: positibe.controller.template:showAction
-        _sylius:
-            criteria:
-                code: $code
 
 positibe_template_preview:
-    path: /{code}/preview
+    path: /{id}/preview
     methods: [GET]
     defaults:
         _controller: positibe.controller.template:showAction
         _sylius:
             template: PositibeMailingBundle:Template:preview.html.twig
-            criteria:
-                code: $code
 
 positibe_template_update:
-    path: /{code}/edit
+    path: /{id}/edit
     methods: [GET, PUT]
     defaults:
         _controller: positibe.controller.template:updateAction
         _sylius:
-            criteria:
-                code: $code
             redirect:
-                route: positibe_template_show
-                parameters: {code: resource.code}
+                route: positibe_template_update
+                parameters: {id: resource.id}
 
 positibe_template_delete:
-    path: /{code}
+    path: /{id}
     methods: [DELETE]
     defaults:
         _controller: positibe.controller.template:deleteAction
