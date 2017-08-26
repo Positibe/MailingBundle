@@ -48,6 +48,9 @@ mail:
         page_subtitle: Editar correo
     show:
         page_title: Correo
+        configuration: Configuración
+        state: Estado
+        statistics: Estadísticas
     form:
         legend: Datos del correo
         tab_1: Datos generales

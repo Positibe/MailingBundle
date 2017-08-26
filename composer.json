@@ -11,7 +11,7 @@
     ],
     "homepage": "http://positibelabs.blogspot.com/bundles/mailing",
     "license": "MIT",
-    "version": "1.0.0-RC1",
+    "version": "1.0.0-RC2",
     "authors": [
         {
             "name": "Pedro Carlos Abreu Jiménez",
@@ -28,7 +28,8 @@
         "doctrine/orm": "~2.5",
         "gedmo/doctrine-extensions": "~2.3",
         "sylius/resource-bundle": "^1.0",
-        "symfony/swiftmailer-bundle": "~2.3"
+        "symfony/swiftmailer-bundle": "~2.3",
+        "pcabreus-utils/named-character-converter": ">=1.2.2"
     },
     "suggestions": {
         "positibe/core-bundle": "^1.0"

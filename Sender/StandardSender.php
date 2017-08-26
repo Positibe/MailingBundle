@@ -11,10 +11,11 @@
 namespace Positibe\Bundle\MailingBundle\Sender;
 
 use Doctrine\ORM\EntityManager;
+use Pcabreus\Utils\Html\NamedCharacterConverter;
 use Positibe\Bundle\MailingBundle\Entity\Mail;
 use Positibe\Bundle\MailingBundle\Entity\Statistics;
 use Positibe\Bundle\MailingBundle\Entity\Interfaces\SwiftMailerMessageInterface;
-use Positibe\Bundle\OrmMediaBundle\Entity\Media;
+use Positibe\Bundle\MediaBundle\Entity\Media;
 
 
 /**
@@ -68,7 +69,6 @@ class StandardSender implements SenderInterface
         $mail = $this->mergeData($mail, $data);
 
         try {
-
             $mail->setSubjectHtml($this->getSubjectHtml($mail));
             $mail->setBodyHtml($this->getBodyHtml($mail));
 
@@ -90,21 +90,22 @@ class StandardSender implements SenderInterface
                 $mail->setSentAt(new \DateTime());
                 $mail->setSentCount($response);
             }
+            $this->logMail($mail, $data);
+
+            return $mail;
         } catch (\Twig_Error $ex) {
             $mail->setState(Mail::STATE_ERROR);
             $mail->setMessageError($ex->getRawMessage());
+            $this->logMail($mail, $data);
 
             return $mail;
         } catch (\Exception $ex) {
             $mail->setState(Mail::STATE_ERROR);
             $mail->setMessageError('Error fatal: '.$ex->getMessage());
+            $this->logMail($mail, $data);
 
             return $mail;
         }
-
-        $this->logMail($mail, $data);
-
-        return $mail;
     }
 
     protected function createMessage(
@@ -219,12 +220,8 @@ class StandardSender implements SenderInterface
      */
     public function getBodyHtml(Mail $mail, array $variables = [])
     {
-        $twig = new \Twig_Environment($loader = new \Twig_Loader_String());
-        $twig->setExtensions($this->twig->getExtensions());
-
-
-        $bodyHtml = $twig->render(
-            $mail->getBody(),
+        $template = $this->twig->createTemplate(NamedCharacterConverter::convert($mail->getBody()));
+        $bodyHtml = $template->render(
             array_merge($mail->getVariables(), $variables)
         );
 
@@ -238,11 +235,8 @@ class StandardSender implements SenderInterface
      */
     public function getSubjectHtml(Mail $mail, array $variables = [])
     {
-        $twig = new \Twig_Environment($loader = new \Twig_Loader_String());
-        $twig->setExtensions($this->twig->getExtensions());
-
-        $subjectHtml = $twig->render(
-            $mail->getSubject(),
+        $template = $this->twig->createTemplate(NamedCharacterConverter::convert($mail->getSubject()));
+        $subjectHtml = $template->render(
             array_merge($mail->getVariables(), $variables)
         );
 
