@@ -1,7 +1,7 @@
 positibe_mailing_mail:
     resource: "@PositibeMailingBundle/Resources/config/routing/mail.yml"
-    prefix:   /mail
+    prefix:   /mails
 
 positibe_mailing_template:
     resource: "@PositibeMailingBundle/Resources/config/routing/template.yml"
-    prefix:   /template
+    prefix:   /templates
